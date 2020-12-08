@@ -18,8 +18,8 @@ function onedQuadratureRule(rule::Int)
   - `w`: Gauss weights corresponding to r
 """ =#
 
-  r = Array(Float64,rule);
-  w = Array(Float64,rule);
+  r = zeros(Float64,rule);
+  w = zeros(Float64,rule);
 
   if rule == 1         # up to order 1 polynomials integrated exactly
     r[1] = 0.0

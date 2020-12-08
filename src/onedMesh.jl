@@ -25,7 +25,7 @@ function onedMesh(xb::Array{Float64,1}, order::Int, numElem::Int)
 """ =#
 
   #  Create the element connectivity
-  eConn = Array(Int64,numElem,order+1)
+  eConn = zeros(Int64,numElem,order+1)
   for k=1:numElem
     if (order == 1)
       eConn[k,:] = [k, k+1]
@@ -39,7 +39,7 @@ function onedMesh(xb::Array{Float64,1}, order::Int, numElem::Int)
   end
 
   nNodes = eConn[end,end]
-  x = linspace(xb[1],xb[2],nNodes)
+  x = collect(range(xb[1],xb[2],length=nNodes))
 
   indexU = [2:nNodes-1;]
   indexC = [1;nNodes]
