@@ -29,17 +29,17 @@ function onedShape(x,r,w)
   n  = size(x,1)
   ng = size(r,1)
 
-  xg  = Array(Float64,ng,n)
-  ϕ   = Array(Float64,ng,n)
-  ϕ_x = Array(Float64,ng,n)
-  ϕ_xx = Array(Float64,ng,n)
+  xg  = zeros(Float64,ng,n)
+  ϕ   = zeros(Float64,ng,n)
+  ϕ_x = zeros(Float64,ng,n)
+  ϕ_xx = zeros(Float64,ng,n)
 
   if n == 2            
     # Transform coordinates for linear elements
     c0 = ( x[n]-x[1] )/2.0
     c1 = ( x[n]+x[1] )/2.0
 
-    x_g = c0*r + c1
+    x_g = c0.*r .+ c1
 
     ϕ[:,1] = ( 1-r )/2.0
     ϕ[:,2] = ( 1+r )/2.0
@@ -56,15 +56,15 @@ function onedShape(x,r,w)
     c0 = ( x[n]-x[1] )/2.0
     c1 = ( x[n]+x[1] )/2.0
    
-    x_g = c0*r + c1
+    x_g = c0.*r .+ c1
 
-    ϕ[:,1] = 0.5*r.*( r-1.0 )
-    ϕ[:,2] = -( r+1.0 ).*( r-1.0 )
-    ϕ[:,3] = 0.5*r.*( r+1.0 )
+    ϕ[:,1] = 0.5.*r.*( r.-1.0 )
+    ϕ[:,2] = -( r.+1.0 ).*( r.-1.0 )
+    ϕ[:,3] = 0.5*r.*( r.+1.0 )
 
-    ϕ_x[:,1] = ( r-0.5 )/c0
-    ϕ_x[:,2] = -2.0*r/c0
-    ϕ_x[:,3] = ( r+0.5 )/c0
+    ϕ_x[:,1] = ( r.-0.5 )/c0
+    ϕ_x[:,2] = -2.0*r./c0
+    ϕ_x[:,3] = ( r.+0.5 )./c0
 
     djac = c0
 
