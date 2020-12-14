@@ -3,93 +3,68 @@ function twodStokes(N::Int)
 #     - ∇⋅(∇z+∇z') + ∇p = f,  Ω = (0,1)×(0,1),  homogeneous Dirichlet b.c.
 #---------------------------------------------------------------------------78--
 
-##  include("twodMesh.jl")
-##  include("twodQuadratureRule.jl")
+  include("../src/twodMesh.jl")
+  include("../src/twodQuadratureRule.jl")
 #  @everywhere include("twodShape.jl")
 #  @everywhere include("twodBilinear.jl")
 #  @everywhere include("twodLinForm.jl")
-##  include("twodShape.jl")
-##  include("twodBilinear.jl")
-##  include("twodLinForm.jl")
+  include("../src/twodShape.jl")
+  include("../src/twodBilinear.jl")
+  include("../src/twodLinForm.jl")
 
   #  Define problem parameters
 #  @everywhere μ = 0.001;
 #  @everywhere ϵ = 0.0;
-  μ = 0.001;
-  ϵ = 0.0;
+  μ = 0.01;
+  ϵ = 0.00005;
 
   xMin =-1.0;
   xMax = 1.0;
   yMin =-1.0;
   yMax = 1.0;
 
-  rule  = 3;   # points in quadrature formula
+  rule  = 7;   # points in quadrature formula
 
 
   #  Specify manufactured solutions for code verification
   #-----------------------------------------------------------------------------
   function zExact(x)
-    return sin(π*x[1])*sin(2.0*π*x[2]);
+     return -x[2]*(1-x[2]^2)
+#     return  x[1]*(1-x[1]^2)
+#    return sin(π*x[1])*sin(2.0*π*x[2]);
   end
 
 #  @everywhere function fx(x::Array{Float64,2})
   function fx(x::Array{Float64,2})
-    return 1.0 - 6.0*μ*x[2]; #1.0 + 8.0*μ*x[2];
+    return 1.0-6.0*μ*x[2]
   end
 #  @everywhere function fy(x::Array{Float64,2})
   function fy(x::Array{Float64,2})
-    return 1.0 + 6.0*μ*x[1]; #4.0*μ*(1.0-2.0*x[1]);
+    return 1.0+6.0*μ*x[1]
   end
 
-  #  Create mesh and set equation numbers and boundary conditions
+
+  #  Create mesh then set equation numbers
   #-----------------------------------------------------------------------------
-  nNodesX = N; nNodesY = N;
+  nNodesX = N; 
+  nNodesY = N;
   x,eConn,iB = twodMesh( xMin,xMax, yMin,yMax, "quadratic", nNodesX,nNodesY );
   nNodes = size(x,1);
   nElements = size(eConn,1);
 
+
   #  Set the index into equation numbers
   #-----------------------------------------------------------------------------
-  ideU = zeros(Int64,nNodes,2);
-  ideP = zeros(Int64,nNodes,1);
-
-  nBC = 2*size(iB,1);
-  dirU = zeros(Float64,nBC);
-
-  global n_diru = 0;
-#=  for i=iB
-    if ( x[i,2]>yMax-1e-8 )
-      n_diru = n_diru + 1;
-      ideU[i,1] = -n_diru;
-      dirU[n_diru] = 4.0*(x[i,1]-xMin)*(xMax-x[i,1])/(xMax-xMin)^2;
-
-      n_diru = n_diru + 1;
-      ideU[i,2] = -n_diru;
-      dirU[n_diru] = -2*(x[i,2]-yMin)^2/(yMax-yMin) * (xMax+xMin-2*x[i,1])/(xMax-xMin);
-    else
-      n_diru = n_diru + 1;
-      ideU[i,1] = -n_diru;
-      dirU[n_diru] = 0.0;
-
-      n_diru = n_diru + 1;
-      ideU[i,2] = -n_diru;
-      dirU[n_diru] = -2*(x[i,2]-yMin)^2/(yMax-yMin) * (xMax+xMin-2*x[i,1])/(xMax-xMin);
-    end
-end =#
-
-  ideU = zeros(Int64,nNodes,2);  # rezero (will find a way to identify DBC later)
+  ideU = zeros(Int64,nNodes,2); 
 
   global nUnk = 0;
-  iU = zeros(Int64,2*nNodes); #iU = zeros(Int64,2*nNodes-nBC);
   for i=1:nNodes
     if ideU[i,1]==0
-      nUnk = nUnk+1;
-      iU[nUnk] = i;
+      global nUnk = nUnk+1;
       ideU[i,1] = nUnk;
     end
     if ideU[i,2]==0
-      nUnk = nUnk+1;
-      iU[nUnk] = i;
+      global nUnk = nUnk+1;
       ideU[i,2] = nUnk;
     end
   end
@@ -98,21 +73,22 @@ end =#
   for n_el=1:nElements
     vertex = eConn[n_el,1:3];
     if ( ideP[vertex[1]]==0 )
-      nUnk = nUnk + 1;
+      global nUnk = nUnk + 1;
       ideP[vertex[1]] = nUnk;
     end
 
     if ( ideP[vertex[2]]==0 )
-      nUnk = nUnk + 1;
+      global nUnk = nUnk + 1;
       ideP[vertex[2]] = nUnk;
     end
 
     if ( ideP[vertex[3]]==0 )
-      nUnk = nUnk + 1;
+      global nUnk = nUnk + 1;
       ideP[vertex[3]] = nUnk;
     end
   end
   nP = nUnk - 2*nNodes;
+
 
   #  Integrate system matrices, element-by-element
   #-----------------------------------------------------------------------------
@@ -131,7 +107,7 @@ end =#
   II  = Array{Int64,1}(undef, nEntries);
   JJ  = Array{Int64,1}(undef, nEntries);
   AA  = Array{Float64,1}(undef, nEntries);
-  b   = Array{Float64,1}(undef, 2*nNodes);
+  b   = zeros(Float64,2*nNodes,1);
 
 #  @sync @distributed for k=1:nElements
   for k=1:nElements
@@ -159,8 +135,8 @@ end =#
     B1Loc  = twodBilinear(   one, phi_x, psi  , wg) ;
     B2Loc  = twodBilinear(   one, phi_y, psi  , wg) ;
     MLoc   =-twodBilinear(   ϵ_g, psi  , psi  , wg) ;
-    F1Loc  = twodLinForm(  fx_g, phi  ,        wg) ;
-    F2Loc  = twodLinForm(  fy_g, phi  ,        wg) ;
+    F1Loc  = twodLinForm(   fx_g, phi  ,        wg) ;
+    F2Loc  = twodLinForm(   fy_g, phi  ,        wg) ;
 
     index = (k-1)*(2*nElDOF+3)^2;  # compute base index (since k could be in any order)
     #@printf("%g:\n",index)
@@ -252,24 +228,80 @@ end =#
       end
 
     end
-    #@printf("%g\n",index)
   end
-  #print("$(II)")
+  
   A = sparse(II,JJ,AA);
 
-  #print("$(A)")
-  #print("$(b)")
 
-#=  u = zeros(Float64,nNodes);
-  u[iU] = A[iU,iU]\b[iU];
+  #  Solve and apply the boundary conditions
+  #-----------------------------------------------------------------------------
+  nDirichlet = size(iB,1);
 
-  uExact = zeros(Float64,nNodes);
+  knownIndexU = [2*iB-ones(Int64,nDirichlet,1)]
+  knownIndexV = [2*iB]
+
+  dirichletU = zeros(Float64,nDirichlet,1)
+  dirichletV = zeros(Float64,nDirichlet,1)
+  for i = 1:length(iB)
+    dirichletU[i] =-x[iB[i],2]*(1.0-x[iB[i],2]^2)
+    dirichletV[i] = x[iB[i],1]*(1.0-x[iB[i],1]^2)
+  end   
+  
+  interiorNodes = 1:nNodes;
+  interiorNodes = setdiff(interiorNodes,iB)
+#  sort!(interiorNodes)
+
+  nUnknowns = 2*length(interiorNodes) + nP;
+  unknownIndex = Array{Int64,1}(undef,nUnknowns)
+  uIndex = Array{Int64,1}(undef,length(interiorNodes))
+  vIndex = Array{Int64,1}(undef,length(interiorNodes))
+  uInverseIndex = Array{Int64,1}(undef,nNodes)
+  vInverseIndex = Array{Int64,1}(undef,nNodes)
+
+  global nUnknownCounter = 0;
+  for i ∈ interiorNodes
+    global nUnknownCounter = nUnknownCounter+1;
+    unknownIndex[nUnknownCounter] = 2*i-1;
+    uIndex[nUnknownCounter] = i;
+    uInverseIndex[i]=nUnknownCounter;
+
+    global nUnknownCounter = nUnknownCounter+1;
+    unknownIndex[nUnknownCounter] = 2*i;
+    vIndex[nUnknownCounter] = i;
+    vInverseIndex[i]=nUnknownCounter;
+  end
+
+#  unknownIndex = 1:nUnknowns
+  rhs = b[unknownIndex]-A[unknownIndex,knownIndexU[][:]]*dirichletU-A[unknownIndex,knownIndexV[][:]]*dirichletV
+
+  uvp = A[unknownIndex,unknownIndex]\rhs
+
+  velocity = zeros(Float64,nNodes,2)
+
+  global nUnknownCounter = 0;
+  for i=interiorNodes
+    global nUnknownCounter = nUnknownCounter+1;
+    velocity[i,1] = uvp[nUnknownCounter];
+
+    global nUnknownCounter = nUnknownCounter + 1;
+    velocity[i,2] = uvp[nUnknownCounter];
+  end
+
+#  for i=1:nDirichlet
+#    velocity[iB[i],1] = dirichletU[i];
+#    velocity[iB[i],2] = dirichletV[i];
+#  end
+  @printf("nUnknowns %g\n",nUnknowns)
+  @printf("nUnknownCounter %g\n",nUnknownCounter)
+
+
+  #  Compute the exact solution for the unit test
+  uExact = zeros(Float64,nNodes,1);
   for n=1:nNodes
     uExact[n] = zExact(x[n,:])
   end
 
-  #print("$(u)")
-=#
-#  return x,eConn,u,uExact
-  return norm(u-uExact) #A,b
+  return A,b,rhs,knownIndexU,knownIndexV,unknownIndex,dirichletU,dirichletV
+#  return x,eConn,velocity,uExact
+#  return norm(velocity[:,1]-uExact) #A,b
 end
