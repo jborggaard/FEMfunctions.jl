@@ -1,4 +1,4 @@
-using FEMfunctions
+#using FEMfunctions
 using LinearAlgebra
 using SparseArrays
 using Test
@@ -10,6 +10,6 @@ using Test
 #  include("test_twodElliptic.jl")
 #  @test abs(test_twodElliptic())<1e-10
 
-#  include("twodStokes.jl")
-#  @test abs(twodStokes(25))<0.01
+  include("twodStokes.jl")
+  @test abs(twodStokes(25))<0.01
 end
