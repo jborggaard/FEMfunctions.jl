@@ -1,14 +1,14 @@
-function twodProjectDerivatives(x,eConn,u,node)
+function TriMesh_ProjectDerivatives(x,eConn,u,node)
 #= """
-  twodProjectDerivatives - routine to project the derivative of scalar fields
-                   onto the continuous finite element space (a ZZ projection).
+  TriMesh_ProjectDerivatives - project the derivative of a C0 scalar field 
+             onto the continuous finite element space (a ZZ projection).
 
   Author: Jeff Borggaard, Virginia Tech
   Version: 1.0
 
   Usage:
   ```julia
-    dudx1, dudx2, e_error, node = twodProjectDerivatives(x, e_conn, u, node)
+    dudx1, dudx2, elError, node = TriMesh_ProjectDerivatives(x, eConn, u, node)
   ```
                  Multiple scalar fields can be treated at once
                      u = [u1  u2  ... ]
@@ -19,7 +19,7 @@ function twodProjectDerivatives(x,eConn,u,node)
 
   Arguments:
   - `x`: Nodal coordinates
-  - `e_conn`: Element connectivity
+  - `eConn`: Element connectivity
   - `u`: Nodal values of scalar quantity
 
   - `node`: (optional, for future development)
@@ -31,7 +31,7 @@ function twodProjectDerivatives(x,eConn,u,node)
   - `dudx1`: Projection of the x-derivatives evaluated at nodes
   - `dudx2`: Projection of the y-derivatives evaluated at nodes
 
-  - `e_error`: element error (H1-seminorm for each field)
+  - `elError`: element error (H1-seminorm for each field)
   - `node`: a structure that contains an element list for each node
 """ =#
 
