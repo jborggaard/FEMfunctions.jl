@@ -1,4 +1,4 @@
-function twodStokes(N::Int)
+function twodStokes(N=25)
 #  Solves Stokes equation in 2D with Dirichlet boundary conditions
 #     - ∇⋅(∇z+∇z') + ∇p = f,  Ω = (0,1)×(0,1),  homogeneous Dirichlet b.c.
 #---------------------------------------------------------------------------78--
@@ -35,6 +35,10 @@ function twodStokes(N::Int)
 
   function vExact(x)
     return  x[1]*(1-x[1]^2)
+  end
+
+  function pExact(x)
+    return x[1]+x[2]
   end
 
 #  @everywhere function fx(x::Array{Float64,2})
@@ -324,8 +328,20 @@ function twodStokes(N::Int)
   end
 
   pressureExact = zeros(Float64,nNodes,1)
+  for n=1:nNodes
+    pressureExact[n] = pExact(x[n,:])
+  end
 
 #  return A,b,rhs,knownIndexU,knownIndexV,unknownIndex,dirichletU,dirichletV
 #  return x,eConn,velocity,velocityExact,pressure,pressureExact
-  return norm(velocity-velocityExact) # proxy for sqrt((v-vE)'*M*(v-vE))
+
+  # Compute the norm of the approximation error
+  M = twodMassMatrix(x,eConn)
+  vDiff = velocity-velocityExact
+  C     = pressureExact[1]-pressure[1]
+  pDiff = pressure-pressureExact.+C
+  return sqrt(dot(vDiff[:,1],M,vDiff[:,1])) + 
+         sqrt(dot(vDiff[:,2],M,vDiff[:,2])) +
+         sqrt(dot(pDiff,M,pDiff))
+#  return sqrt(vDiff'*M*vDiff) + sqrt(pDiff'*M*pDiff)
 end
