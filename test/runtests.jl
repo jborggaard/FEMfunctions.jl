@@ -1,3 +1,7 @@
+import Pkg
+Pkg.add("LinearAlgebra")
+Pkg.add("SparseArrays")
+Pkg.add("Test")
 using FEMfunctions
 using LinearAlgebra
 using SparseArrays
