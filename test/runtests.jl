@@ -11,5 +11,5 @@ using Test
 #  @test abs(test_twodElliptic())<1e-10
 
   include("twodStokes.jl")
-  @test abs(twodStokes(25))<0.01
+  @test abs(twodStokes(25))<1e-10
 end
