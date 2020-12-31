@@ -1,4 +1,4 @@
-#using FEMfunctions
+using FEMfunctions
 using LinearAlgebra
 using SparseArrays
 using Test

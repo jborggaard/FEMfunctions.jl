@@ -5,13 +5,15 @@ function twodStokes(N=25)
 
   include("../src/twodMesh.jl")
   include("../src/twodQuadratureRule.jl")
-#  @everywhere include("twodShape.jl")
-#  @everywhere include("twodBilinear.jl")
-#  @everywhere include("twodLinForm.jl")
   include("../src/twodShape.jl")
   include("../src/twodBilinear.jl")
   include("../src/twodLinForm.jl")
+  include("../src/twodMassMatrix.jl")
   include("../src/TriMesh_PromoteL2Q.jl")
+
+#  @everywhere include("twodShape.jl")
+#  @everywhere include("twodBilinear.jl")
+#  @everywhere include("twodLinForm.jl")
 
   #  Define problem parameters
 #  @everywhere μ = 0.001
@@ -127,7 +129,6 @@ function twodStokes(N=25)
 
     xg,wg,phi,phi_x,phi_y = twodShape( xLocal, r, s, w )
     xg,wg,psi,psi_x,psi_y = twodShape( xLocal[1:3,:], r, s, w )
-
     
     # evaluate forcing function at quadrature points
     fx_g = fx(xg)
@@ -146,13 +147,10 @@ function twodStokes(N=25)
     F2Loc  = twodLinForm(   fy_g, phi  ,        wg) 
 
     index = (k-1)*(2*nElDOF+3)^2   # compute base index (since k could be in any order)
-    #@printf("%g:\n",index)
     lDOF = ideU[nLocal,1][:]
-  #  @printf("%g %g %g %g %g %g\n",lDOF[1],lDOF[2],lDOF[3],lDOF[4],lDOF[5],lDOF[6])
     # u-momentum equations
     for nt = 1:nElDOF
       nTest = ideU[nLocal[nt],1]
-#      @printf("%g\n",nTest)
       for nu = 1:nElDOF
         nUnkU = ideU[nLocal[nu],1]
         nUnkV = ideU[nLocal[nu],2]
