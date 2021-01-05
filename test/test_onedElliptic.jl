@@ -45,7 +45,7 @@
     lDOF = ide[nLocal]
     for nt = 1:nElDOF
       for nu = 1:nElDOF
-        index = index + 1
+        global index = index + 1
         II[index]   = lDOF[nu]
         JJ[index]   = lDOF[nt]
         AA[index]   = ALoc[nt,nu]

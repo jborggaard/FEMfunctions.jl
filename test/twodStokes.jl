@@ -3,7 +3,6 @@ function twodStokes(N=25)
 #     - ∇⋅(∇z+∇z') + ∇p = f,  Ω = (0,1)×(0,1),  homogeneous Dirichlet b.c.
 #---------------------------------------------------------------------------78--
 
-  using FEMfunctions
 #  include("../src/twodMesh.jl")
 #  include("../src/twodQuadratureRule.jl")
 #  include("../src/twodShape.jl")
