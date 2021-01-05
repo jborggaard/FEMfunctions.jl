@@ -1,10 +1,12 @@
 #  Solves a linear elliptic PDE in 1D 
 
-  include("onedMesh.jl");
-  include("onedQuadratureRule.jl")
-  include("onedShape.jl")
-  include("onedBilinear.jl")
-  include("onedLinForm.jl")
+  using FEMfunctions
+
+#  include("onedMesh.jl");
+#  include("onedQuadratureRule.jl")
+#  include("onedShape.jl")
+#  include("onedBilinear.jl")
+#  include("onedLinForm.jl")
 
   nElements = 40;
   order     = 2;

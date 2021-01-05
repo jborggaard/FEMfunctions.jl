@@ -1,12 +1,18 @@
-function test_onedElliptic(nElements=40,order=2)
+#function test_onedElliptic(nElements=40,order=2)
 #  Solves a linear elliptic PDE in 1D 
-#  using FEMfunctions
+  using FEMfunctions
 
-  include("../src/onedMesh.jl");
-  include("../src/onedQuadratureRule.jl")
-  include("../src/onedShape.jl")
-  include("../src/onedBilinear.jl")
-  include("../src/onedLinForm.jl")
+  using LinearAlgebra
+  using SparseArrays
+
+  nElements = 40
+  order = 2
+
+#  include("../src/onedMesh.jl");
+#  include("../src/onedQuadratureRule.jl")
+#  include("../src/onedShape.jl")
+#  include("../src/onedBilinear.jl")
+#  include("../src/onedLinForm.jl")
 
   f(x)=x                                   # right-hand side function definition
 
@@ -57,5 +63,5 @@ function test_onedElliptic(nElements=40,order=2)
 
   #  as a test, compare the computed interior values to the exact values
   #  at those nodes.  Ideally, this would be a weighted norm, but ...
-  return norm(u-uExact)
-end
+  @test norm(u-uExact)<1e-10
+#end

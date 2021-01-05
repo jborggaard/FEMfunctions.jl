@@ -3,13 +3,14 @@ function twodStokes(N=25)
 #     - ∇⋅(∇z+∇z') + ∇p = f,  Ω = (0,1)×(0,1),  homogeneous Dirichlet b.c.
 #---------------------------------------------------------------------------78--
 
-  include("../src/twodMesh.jl")
-  include("../src/twodQuadratureRule.jl")
-  include("../src/twodShape.jl")
-  include("../src/twodBilinear.jl")
-  include("../src/twodLinForm.jl")
-  include("../src/twodMassMatrix.jl")
-  include("../src/TriMesh_PromoteL2Q.jl")
+  using FEMfunctions
+#  include("../src/twodMesh.jl")
+#  include("../src/twodQuadratureRule.jl")
+#  include("../src/twodShape.jl")
+#  include("../src/twodBilinear.jl")
+#  include("../src/twodLinForm.jl")
+#  include("../src/twodMassMatrix.jl")
+#  include("../src/TriMesh_PromoteL2Q.jl")
 
 #  @everywhere include("twodShape.jl")
 #  @everywhere include("twodBilinear.jl")
