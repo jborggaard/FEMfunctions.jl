@@ -9,7 +9,7 @@ function onedMesh(xb, order::Int, numElem::Int)
 
   Usage:
   ```julia
-    x, eConn, indexU, indexC = onedMesh(xb,eConnb,numElem)
+    x, eConn, indexU, indexC = onedMesh(xb,order,numElem)
   ```
 
   Arguments:

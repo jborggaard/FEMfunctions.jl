@@ -1,4 +1,3 @@
-#function test_onedElliptic(nElements=40,order=2)
 #  Solves a linear elliptic PDE in 1D 
   using FEMfunctions
 
@@ -8,6 +7,13 @@
   nElements = 40
   order = 2
 
+  include("onedElliptic.jl")
+
+  error = onedElliptic(nElements,order)
+
+  @test = error<1e-10
+
+  #=
 #  include("../src/onedMesh.jl");
 #  include("../src/onedQuadratureRule.jl")
 #  include("../src/onedShape.jl")
@@ -59,9 +65,9 @@
   u = A[iU,iU]\b[iU]
   xi = x[iU]
 
-  uExact = -(xi.^3-xi)/6;
+  uExact = -(xi.^3-xi)/6
 
   #  as a test, compare the computed interior values to the exact values
   #  at those nodes.  Ideally, this would be a weighted norm, but ...
   @test norm(u-uExact)<1e-10
-#end
+=#

@@ -317,6 +317,7 @@ function twodStokes(N=25)
   pressure = TriMesh_PromoteL2Q(pressure,eConn)
 
 
+#  return x,eConn,velocity,pressure
 
   #  Compute the exact solution for the unit test
   velocityExact = zeros(Float64,nNodes,2)
@@ -330,10 +331,7 @@ function twodStokes(N=25)
     pressureExact[n] = pExact(x[n,:])
   end
 
-#  return A,b,rhs,knownIndexU,knownIndexV,unknownIndex,dirichletU,dirichletV
-#  return x,eConn,velocity,velocityExact,pressure,pressureExact
-
-  # Compute the norm of the approximation error
+  # Compute the norm of the approximation error for the unit test
   M = twodMassMatrix(x,eConn)
   vDiff = velocity-velocityExact
   C     = pressureExact[1]-pressure[1]
@@ -341,5 +339,4 @@ function twodStokes(N=25)
   return sqrt(dot(vDiff[:,1],M,vDiff[:,1])) + 
          sqrt(dot(vDiff[:,2],M,vDiff[:,2])) +
          sqrt(dot(pDiff,M,pDiff))
-#  return sqrt(vDiff'*M*vDiff) + sqrt(pDiff'*M*pDiff)
 end
