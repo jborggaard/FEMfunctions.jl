@@ -13,8 +13,8 @@ function onedElliptic(nElements=40,order=2)
 
   nElDOF = order+1
   nEntries = nElements*nElDOF^2
-  II  = zeros(Int32,nEntries) #Array{Int32,1}(undef,nEntries)     # zeros(Int32,nEntries)
-  JJ  = zeros(Int32,nEntries) #Array{Int32,1}(undef,nEntries)     # zeros(Int32,nEntries)
+  II  = zeros(Int64,nEntries) #Array{Int32,1}(undef,nEntries)     # zeros(Int32,nEntries)
+  JJ  = zeros(Int64,nEntries) #Array{Int32,1}(undef,nEntries)     # zeros(Int32,nEntries)
   AA  = zeros(Float64,nEntries) #Array{Float64,1}(undef,nEntries)   # zeros(Float64,nEntries)
   b   = zeros(Float64,nNodes) #Array{Float64,1}(undef,nNodes)     # zeros(Float64,nNodes)
 
