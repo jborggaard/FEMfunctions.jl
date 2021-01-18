@@ -13,8 +13,11 @@ module FEMfunctions
 
   export saveFEMasVTK
 
+  export TriMesh_ElementAdjacency
+  export TriMesh_Interpolate
   export TriMesh_ProjectDerivatives
   export TriMesh_PromoteL2Q
+  export TriMesh_Search
 
   export twodBilinear
   export twodLinForm
@@ -31,8 +34,11 @@ module FEMfunctions
 
   include("saveFEMasVTK.jl")
 
+  include("TriMesh_ElementAdjacency.jl")
+  include("TriMesh_Interpolate.jl")
   include("TriMesh_ProjectDerivatives.jl")
   include("TriMesh_PromoteL2Q.jl")
+  include("TriMesh_Search.jl")
 
   include("twodBilinear.jl")
   include("twodLinForm.jl")

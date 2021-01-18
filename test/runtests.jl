@@ -7,4 +7,5 @@ using Test
 
   include("test_twodStokes.jl")
 
+  include("test_TriMesh.jl")
 end

@@ -1,7 +1,7 @@
 function twodShape(x,r,s,w)
 #= """
-  twodShape - computes test functions and derivatives on an
-              element given element coordinates and Gauss points.
+  twodShape - computes test functions and derivatives on a triangular element
+              given the element coordinates and quadrature points.
 
               ! Note: optimized for straight-sided elements.  Use
               ! `twod_shapeiso' for isoparametric elements.
