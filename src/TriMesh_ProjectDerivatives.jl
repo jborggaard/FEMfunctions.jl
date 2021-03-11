@@ -13,7 +13,7 @@ function TriMesh_ProjectDerivatives(x,eConn,u,node)
                  Multiple scalar fields can be treated at once
                      u = [u1  u2  ... ]
 
-                  in which case
+                  in which case, the function returns
                      dudx1 = [∂(s1)/∂(x1)  ∂(s2)/∂(x1)  ... ]
                      dudx2 = [∂(s1)/∂(x1)  ∂(s2)/∂(x1)  ... ]
 
@@ -86,7 +86,9 @@ function TriMesh_ProjectDerivatives(x,eConn,u,node)
         d_y = ϕ_y*uLocal   # on this element
 
         idx = 1+(j-1)*nQuadrature:j*nQuadrature
-        P[idx,:] = [ ones(nQuadrature,1)  x_g[:,1] x_g[:,2]  x_g[:,1].^2 x_g[:,1].*x_g[:,2] x_g[:,2].^2 ]
+        P[idx,:] = [ ones(nQuadrature,1)  
+                     x_g[:,1] x_g[:,2]  
+                     x_g[:,1].^2 x_g[:,1].*x_g[:,2] x_g[:,2].^2 ]
         d1[idx,:] = d_x
         d2[idx,:] = d_y
 
@@ -287,7 +289,7 @@ function TriMesh_ProjectDerivatives(x,eConn,u,node)
 
     eError = sqrt.(eError)
     end
-  end
+  end # computeElementError conditional
 
   return d1_p, d2_p #, eError, node
 end

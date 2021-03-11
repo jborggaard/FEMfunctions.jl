@@ -1,0 +1,34 @@
+\documentclass{amsart}
+
+
+\begin{document}
+
+\section*{ {\tt test/twodOseen.jl} }
+The verification example is constructed on a domain consisting of
+concentric cylinders ($\Omega = \{ (x,y) | 1<r<2 \}$).  For discretization,
+we use Taylor-Hood elements generated using the Gmsh package and 
+a penalty method (parameter $\epsilon$).  Given a divergence-free 
+advection velocity ${\bf v} = (-\omega y,\omega x)$,
+the residual of the Oseen equations are
+%
+\begin{align*}
+  0 &= -\left( {\bf v}\cdot\nabla \right) {\bf u} - \left( {\bf u}\cdot \nabla
+  \right) {\bf v} - \nabla p + \mu \nabla \cdot \left(\nabla u + (\nabla u)^T
+  \right) + {\bf f} \\
+  0 &= \nabla \cdot {\bf u} + \epsilon p
+\end{align*}
+
+With an analytical solution ${\bf u}= \frac{(r-1)}{r}(-y,x)$, and $p=r^2$, 
+the forcing function ${\bf f}$ is set as
+%
+\begin{displaymath}
+  {\bf f} = \left[ \begin{array}{c}
+      (2xr^5-3\mu\omega y^3+\omega^2 x( r^2-r^5)-3\mu\omega x^2 y +
+      4\mu\omega y r^2)/r^5 \\
+      (2yr^5+3\mu\omega x^3 + \omega^2 y(r^2-r^5)+ 3\mu\omega x y^2
+      -4\mu\omega x r^2)/r^5
+  \end{array} \right].
+\end{displaymath}
+%
+Note that the $\epsilon$-dependence is not accounted for.
+\end{document}

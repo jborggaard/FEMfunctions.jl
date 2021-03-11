@@ -3,3 +3,5 @@
 *.jl.mem
 test/.mixing.msh
 /Manifest.toml
+*.vtu
+*.m
