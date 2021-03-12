@@ -57,12 +57,15 @@ velocity,pressure,exactVelocity,exactPressure = twodOseen(xT,eC,innerNodes,outer
 
 #  To manually check the function saveFEMasVTK, enter the following line
 #  and use ParaView:
-saveFEMasVTK("Oseen",xT,eC,["pressure"],pressure,["velocity"],velocity)
-saveFEMasVTK("OseenEx",xT,eC,["pressure"],exactPressure,["velocity"],exactVelocity)
+# saveFEMasVTK("Oseen",xT,eC,["pressure"],pressure,["velocity"],velocity)
+# saveFEMasVTK("OseenEx",xT,eC,["pressure"],exactPressure,["velocity"],exactVelocity)
 
 M = twodMassMatrix(xT,eC)
 errorU = velocity[:,1]-exactVelocity[:,1]
 errorV = velocity[:,2]-exactVelocity[:,2]
+errorP = pressure-exactPressure
 
 #  The inner boundary isn't exactly a circle of radius 1, so we have a weaker error
-sqrt( dot(errorU,(M*errorU)) + dot(errorV,(M*errorV)) )
+@test sqrt( dot(errorU,(M*errorU)) + dot(errorV,(M*errorV)) ) < 1e-4
+#         sqrt( dot(errorP,(M*errorP)) ) < 1e-2
+

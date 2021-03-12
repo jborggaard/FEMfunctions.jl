@@ -23,7 +23,7 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
 #  include("twodBilinear.jl")
 #  include("twodLinForm.jl")
 
-  ϵ = 1e-7/μ   # penalty parameter
+  ϵ = 1e-8/μ   # penalty parameter
   rule  = 7    # points in quadrature formula
 
   function f(x::Array{Float64,2},μ,ω)

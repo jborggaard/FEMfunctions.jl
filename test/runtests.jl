@@ -5,6 +5,8 @@ using Test
 
   include("test_twodElliptic.jl")
 
+  include("test_twodOseen.jl")
+
   include("test_twodStokes.jl")
 
   include("test_TriMesh.jl")
