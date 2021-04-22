@@ -299,7 +299,7 @@ These are functions for P# (triangular) or Q# (rectangular) elements.
 
   ```julia
     d1_p, d2_p, d3_p, e_error, node] = threedProjectDerivatives(x,e_conn,u,nQuadrature)
-````
+  ````
 
 - `threedRestrictQ2L`:
 
