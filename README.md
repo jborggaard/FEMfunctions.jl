@@ -29,7 +29,7 @@ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 FITNESS FOR A PARTICULAR PURPOSE.
 
 ---
-##oned functions
+## oned functions ##
 
 
 ```julia
@@ -87,12 +87,6 @@ FITNESS FOR A PARTICULAR PURPOSE.
       [x,eConn,indexU,indexD] = onedMesh([0.0 1.0],[1 2],[20])
    ````
 
-  [comment]: # - `onedPlotHermite`: Plots functions defined on Hermite cubic meshes
-
-  [comment]:```julia
-  [comment]:  [] = onedPlotHermite(figure,x,e_conn,w,wp,plotString)
-  [comment]:````
-
 - `onedProjectDerivative`: Projects the derivative of a finite element solution onto a continuous finite element space
 
   ```julia
@@ -131,7 +125,7 @@ elements (interior nodes are not uniformly spaced)
   ````
 
 ---
-##twod functions
+## twod functions ##
 
 These are functions for P# (triangular) or Q# (rectangular) elements.
 
@@ -207,7 +201,7 @@ These are functions for P# (triangular) or Q# (rectangular) elements.
 
   ```julia
     f,elementList = TriMesh_Interpolate( x, eConn, neighbors, f_node, xy_points)
-````
+  ````
 
 - `TriMesh_ProjectDerivatives`: use patches to project derivatives of finite element functions onto a continuous finite element function
 
@@ -252,7 +246,7 @@ These are functions for P# (triangular) or Q# (rectangular) elements.
     xg, wg, phi, p_x, p_y = twodShapeQ(x, r, s, w)
   ````
 
-### Functions to save FEM solutions for visualization
+### Functions to save FEM solutions for visualization ###
 - `saveFEMasGmsh`:
 
   ```julia
@@ -269,7 +263,7 @@ These are functions for P# (triangular) or Q# (rectangular) elements.
   ````
 
 ---
-##threed functions
+## threed functions ##
 
 - `threedBilinear`: Integrates bilinear form over an element
 
