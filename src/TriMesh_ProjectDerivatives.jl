@@ -297,5 +297,5 @@ function TriMesh_ProjectDerivatives(x,eConn,u;nodeList=[])
     end
   end # computeElementError conditional
 
-  return d1_p, d2_p, node #, eError
+  return d1_p, d2_p, nodeList #, eError
 end

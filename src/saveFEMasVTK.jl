@@ -20,9 +20,17 @@ function saveFEMasVTK( filename,
   
   #  Place the element connectivity in the correct format
   if (nNodesPerElement==3)
-    cellType = VTKCellTypes.VTK_TRIANGLE       # =5 in the VTK 4.2 format
+    cellType = VTKCellTypes.VTK_TRIANGLE              # =  5 in the VTK 4.2 format
+  elseif ( nNodesPerElement==4 && nDim==2)
+    cellType = VTKCellTypes.VTK_QUAD                  # =  9 in the VTK 4.2 format
+  elseif ( nNodesPerElement==4 && nDim==3)
+    cellType = VTKCellTypes.VTK_TETRA                 # = 10 in the VTK 4.2 format
   elseif ( nNodesPerElement==6 )
-    cellType = VTKCellTypes.VTK_QUADRATIC_TRIANGLE    # =22 in the VTK 4.2 format
+    cellType = VTKCellTypes.VTK_QUADRATIC_TRIANGLE    # = 22 in the VTK 4.2 format
+  elseif ( nNodesPerElement==8 )
+    cellType = VTKCellTypes.VTK_HEXAHEDRON            # = 12 in the VTK 4.2 format
+  elseif ( nNodesPerElement==10 )
+    cellType = VTKCellTypes.VTK_QUADRATIC_TETRA       # = 24 in the VTK 4.2 format
   end
 
   cells = MeshCell[]
