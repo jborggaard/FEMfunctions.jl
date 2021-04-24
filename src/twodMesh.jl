@@ -8,9 +8,12 @@ function twodMesh(x_l::Float64, x_r::Float64,
                and the nodal indices of exterior nodes to assist in the
                specification of boundary conditions..
 
-  Copyright (c) 2001, Jeff Borggaard, Virginia Tech
-  Version: 1.0
+  Author: Jeff Borggaard, Virginia Tech
+          part of FEMfunctions.jl
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     x, e_conn, index_b = twodMesh(x_l,x_r,y_l,y_r,etype,n_nodex,n_nodesy)

@@ -5,8 +5,11 @@ function onedMesh(xb, order::Int, numElem::Int)
                 the inputs xb, eConnb
 
   Author: Jeff Borggaard, Virginia Tech
-  Version: 1.0
+          part of FEMfunctions.jl
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     x, eConn, indexU, indexC = onedMesh(xb,order,numElem)

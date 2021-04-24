@@ -18,8 +18,11 @@ function twodShape(x,r,s,w)
 
 
   Author: Jeff Borggaard, Virginia Tech
-  Version: 1.1
+          part of FEMfunctions.jl
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     xg,wg,ϕ,ϕ_x,ϕ_y = twodShape(x,r,s,w)

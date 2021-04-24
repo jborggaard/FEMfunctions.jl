@@ -7,8 +7,11 @@ function TriMesh_Interpolate(x,eConn,eAdjacency,fNodes,xInterp)
   TriMesh_TestDelauney and TriMesh_ElementAdjacency.
 
   Author: Jeff Borggaard, Virginia Tech
-  Version: 1.0
+          part of FEMfunctions.jl
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     fValues = TriMesh_Interpolate(x,eConn,eAdjacency,fNodes,xInterp)

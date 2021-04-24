@@ -4,8 +4,11 @@ function twodQuadratureRule(rule::Int)
                        elements
 
   Author: Jeff Borggaard, Virginia Tech
-  Version: 1.3
+          part of FEMfunctions
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     r,s,w = twodQuadratureRule(rule)

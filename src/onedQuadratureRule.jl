@@ -3,8 +3,11 @@ function onedQuadratureRule(rule::Int)
   onedQuadratureRule - Return Gauss integration points over (-1,1)
 
   Author: Jeff Borggaard, Virginia Tech
-  Version: 1.3
+          part of FEMfunctions.jl
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     r,w = onedQuadratureRule(rule)

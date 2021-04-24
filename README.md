@@ -32,12 +32,12 @@ FITNESS FOR A PARTICULAR PURPOSE.
 ## oned functions ##
 
 
-```julia
-  A = onedBilinear(kernel,phi,test,quadratureWeights);
-````
 - `onedBilinear`: Integrates bilinear form over an element
   by computing \int{ kernel . phi . test }
   
+  ```julia
+    A = onedBilinear(kernel,phi,test,quadratureWeights);
+  ````
    Inputs | Description
    ------ | -----------
    kernel | a kernel function evaluated at quadrature points
@@ -57,20 +57,6 @@ FITNESS FOR A PARTICULAR PURPOSE.
   ````
   routine to compute \int{ kernel*test }
 
-- `onedQuadrature`: Provides a few Gaussian quadrature rules
-
-  ```julia
-    r,w = onedQuadrature(rule)
-  ````
-  calculate quadrature integration points on (-1,1)
-  
-- `onedGalerkinProjection`: Computes Galerkin projection of a given function onto a finite element mesh (useful for setting initial conditions)
-
-  ```julia
-    p = onedGalerkinProjection(x,eConn,function)
-  ````
-  routine to perform Galerkin projection of the incoming function.
-  
 - `onedMesh`: Provides a one-dimensional mesh given a mesh density
 
   ```julia
@@ -84,9 +70,23 @@ FITNESS FOR A PARTICULAR PURPOSE.
    
    This is frequently used to generate a uniform mesh with equispaced points, e.g.
    ```julia
-      [x,eConn,indexU,indexD] = onedMesh([0.0 1.0],[1 2],[20])
+    x,eConn,indexU,indexD = onedMesh([0.0 1.0],[1 2],[20])
    ````
 
+- `onedQuadratureRule`: Provides a few Gaussian quadrature rules
+
+  ```julia
+    r,w = onedQuadratureRule(rule)
+  ````
+  calculate quadrature integration points on (-1,1)
+  
+- `onedGalerkinProjection`: Computes Galerkin projection of a given function onto a finite element mesh (useful for setting initial conditions)
+
+  ```julia
+    p = onedGalerkinProjection(x,eConn,function)
+  ````
+  routine to perform Galerkin projection of the incoming function.
+  
 - `onedProjectDerivative`: Projects the derivative of a finite element solution onto a continuous finite element space
 
   ```julia
@@ -96,7 +96,7 @@ FITNESS FOR A PARTICULAR PURPOSE.
 - `onedShape`: Evaluates finite element shape functions in an element at the quadrature points
 
   ```julia
-    [xg,wg,phi,p_x,p_xx] = onedShape(xLocal,r,w)
+    xg,wg,phi,p_x,p_xx = onedShape(xLocal,r,w)
   ````
    Inputs | Description
    ------ | -----------
@@ -114,14 +114,14 @@ FITNESS FOR A PARTICULAR PURPOSE.
 - `onedShapeHermite`: Same as `onedShape`, except computing Hermite finite element shape functions within one element at quadrature points
 
   ```julia
-    [xg,wg,phi0,phi1,p0_x,p1_x,p0_xx,p1_xx] = onedShapeHermite(xLocal,r,w)
+    xg,wg,phi0,phi1,p0_x,p1_x,p0_xx,p1_xx = onedShapeHermite(xLocal,r,w)
   ````
 
 - `onedShapeIso`: Same as `onedShape`, but allows for isoparametric
 elements (interior nodes are not uniformly spaced)
 
   ```julia
-    [xg,wg,phi,p_x,p_xx] = oned_shapeiso(xLocal,r,w)
+    xg,wg,phi,p_x,p_xx = oned_shapeiso(xLocal,r,w)
   ````
 
 ---
@@ -166,16 +166,16 @@ These are functions for P# (triangular) or Q# (rectangular) elements.
                                      nNodesx, nNodesy)
   ````
 
-- `twodOrientate`: Reorders node numbers to 
+- `twodOrientate`: Reorders node numbers so elements have positive area
 
   ```julia
-    t = twodOrientate(p, t)
+    eConn = twodOrientate(x, eConn)
   ````
 
-- `twodQuadrature`: Provides a few quadrature rules for P# elements
+- `twodQuadratureRule`: Provides a few quadrature rules for P# elements
 
   ```julia
-    r,s,w = twodQuadrature(rule)
+    r,s,w = twodQuadratureRule(rule)
   ````
 
 - `twodShape`: Evaluates finite element shape functions in an element at the quadrature points
@@ -206,7 +206,11 @@ These are functions for P# (triangular) or Q# (rectangular) elements.
 - `TriMesh_ProjectDerivatives`: use patches to project derivatives of finite element functions onto a continuous finite element function
 
   ```julia
-    d1_p, d2_p, e_error, node = twod_ProjectDerivatives(x, eConn, u)
+    d1_p, d2_p, e_error, nodeList = twod_ProjectDerivatives(x, eConn, u)
+  ````
+  or, on a second pass
+  ```julia
+    z1_p, z2_p, e_error, nodeList = twod_ProjectDerivatives(x, eConn, z, nodeList)
   ````
 
 - `TriMesh_PromoteL2Q`: promotes a linear finite element representation to a quadratic one

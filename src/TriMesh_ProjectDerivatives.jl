@@ -4,11 +4,15 @@ function TriMesh_ProjectDerivatives(x,eConn,u;nodeList=[])
              onto the continuous finite element space (a ZZ projection).
 
   Author: Jeff Borggaard, Virginia Tech
-  Version: 1.0
+          part of FEMfunctions.jl
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
-    dudx1, dudx2, elError, node = TriMesh_ProjectDerivatives(x, eConn, u, node)
+    dudx1, dudx2, elError, nodeList = 
+           TriMesh_ProjectDerivatives(x, eConn, u, nodeList)
   ```
                  Multiple scalar fields can be treated at once
                      u = [u1  u2  ... ]
@@ -22,8 +26,8 @@ function TriMesh_ProjectDerivatives(x,eConn,u;nodeList=[])
   - `eConn`: Element connectivity
   - `u`: Nodal values of scalar quantity
 
-  - `node`: (optional)
-            the node structure can be reused for multiple
+  - `nodeList`: (optional, can be omitted)
+            the nodeList structure can be reused for multiple
             projections involving the same mesh, e.g. for
             time-dependent problems. It is generated and
             returned if not provided.
@@ -33,7 +37,7 @@ function TriMesh_ProjectDerivatives(x,eConn,u;nodeList=[])
   - `dudx2`: Projection of the y-derivatives evaluated at nodes
 
   - `elError`: element error (H1-seminorm for each field)
-  - `node`: a structure that contains an element list for each node
+  - `nodeList`: a structure that contains an element list for each node
 """ =#
 
   nNodes = size(x,1)

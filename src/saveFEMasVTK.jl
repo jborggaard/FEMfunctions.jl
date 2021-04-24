@@ -5,8 +5,13 @@ function saveFEMasVTK( filename,
                        vectorLabels, vectors )
 #  Saves a finite element solution using the WriteVTK package
 #
-
-#  using WriteVTK
+#  Author: Jeff Borggaard, Virginia Tech
+#          part of FEMfunctions.jl
+#
+#  Licensing:
+#     This code is distributed under the MIT license.
+# 
+#  requires the package WriteVTK
 
 
   #  Get mesh dimensions

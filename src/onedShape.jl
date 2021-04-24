@@ -6,8 +6,11 @@ function onedShape(x,r,w)
                  element)
 
   Author: Jeff Borggaard, Virginia Tech
-  Version: 1.3
+          part of FEMfunctions.jl
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     x_g, w_g, ϕ, ϕ_x, ϕ_xx = onedShape(x,r,w)

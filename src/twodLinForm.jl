@@ -5,6 +5,9 @@ function twodLinForm( Ff, test, wg )
   Author: Jeff Borggaard, Virginia Tech
   Version: 1.0
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     F = twodLinForm( Ff, test, wg )

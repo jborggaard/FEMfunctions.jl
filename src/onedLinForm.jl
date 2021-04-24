@@ -3,8 +3,11 @@ function onedLinForm( Ff, test, wg )
   onedLinForm - routine to compute \int{ f*test }
 
   Author: Jeff Borggaard, Virginia Tech
-  Version: 1.3
-
+          part of FEMfunctions.jl
+  
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     F = onedLinForm( Ff, test, w_g )

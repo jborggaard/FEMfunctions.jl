@@ -3,8 +3,11 @@ function twodBilinear( kernel, ϕ, test, wg )
   twodBilinear - routine to compute \int{ kernel*ϕ*test }
 
   Author: Jeff Borggaard, Virginia Tech
-  Version: 1.0
+          part of FEMfunctions.jl
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     M = twodBilinear(kernel, ϕ, test, wg)

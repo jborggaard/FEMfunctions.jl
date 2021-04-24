@@ -1,8 +1,15 @@
 function twodMassMatrix(x,eConn)
-#  Creates the 2D finite element mass matrix (Natural boundary conditions)
-#
-#  In the future, this should have an optional argument (ide) that allows
-#  for various boundary condition types.
+#=  Creates the 2D finite element mass matrix (Natural boundary conditions)
+
+  Author: Jeff Borggaard, Virginia Tech
+          part of FEMfunctions.jl
+
+  Licensing:
+     This code is distributed under the MIT license.
+ 
+  In the future, this should have an optional argument (ide) that allows
+  for various boundary condition types.
+=#
 
   nNodes    = size(x    ,1);
   nElements = size(eConn,1);

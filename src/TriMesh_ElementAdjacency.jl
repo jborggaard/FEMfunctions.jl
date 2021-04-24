@@ -35,7 +35,6 @@ function TriMesh_ElementAdjacency(eConn)
                elements that include node 1, etc.  (planned)
  
    Licensing:
- 
      This code is distributed under the MIT license.
  
    Modified:
@@ -45,6 +44,7 @@ function TriMesh_ElementAdjacency(eConn)
    Authors:
  
      Jeff Borggaard and John Burkardt
+     part of FEMfunctions.jl
  
 ##--------------------------------------------------------------------------78=#
 

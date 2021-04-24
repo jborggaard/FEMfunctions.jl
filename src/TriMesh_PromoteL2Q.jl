@@ -1,8 +1,16 @@
 function TriMesh_PromoteL2Q(p,eConn)
-#  Interpolate values at the midside nodes from the vertices in a
-#  triangular mesh.  Used to promote a linear to a quadratic representation
-#  of a finite element function.
-##
+#= 
+  TriMesh_PromoteL2Q
+   Interpolate values at the midside nodes from the vertices in a
+   triangular mesh.  Used to promote a linear to a quadratic representation
+   of a finite element function.
+  
+  Author: Jeff Borggaard, Virginia Tech
+          part of FEMfunctions.jl
+
+  Licensing:
+     This code is distributed under the MIT license.
+=# 
 
   nElements = size(eConn,1)
 

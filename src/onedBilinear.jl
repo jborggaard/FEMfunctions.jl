@@ -10,7 +10,11 @@ function onedBilinear( kernel, ϕ, test, wg )
                  columns correspond to different local unknowns (in ϕ)
 
   Author: Jeff Borggaard, Virginia Tech
+          part of FEMfunctions.jl
 
+  Licensing:
+     This code is distributed under the MIT license.
+ 
   Usage:
   ```julia
     M = onedBilinear(kernel, ϕ, test, wg)

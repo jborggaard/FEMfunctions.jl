@@ -26,17 +26,10 @@ function TriMesh_Search( x, eConn, eAdjacency, point )
      r,s    the finite element coordinate of "point" in the reference element.
    
    Licensing:
-
      This code is distributed under the MIT license.
 
-   Modified:
-
-     18 January 2021
-
-   Author:
-
-     Jeff Borggaard
-     
+   Author: Jeff Borggaard, Virginia Tech
+           part of FEMfunctions.jl
 =#
 
   nElements = size(eConn,1)

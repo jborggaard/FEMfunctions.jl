@@ -3,7 +3,7 @@ function makeMesh(r,outDir=".")
   n = size(r,1)
 
   gmsh.initialize()
-  gmsh.option.setNumber("General.Terminal", 1)
+  gmsh.option.setNumber("General.Terminal", 0) # change to 1 for Gmsh output
 
   gmsh.model.add("mixing")
 
@@ -82,7 +82,7 @@ function makeMesh(r,outDir=".")
   eConn = [eConn1 eConn2]
 #  eC = convert(Array{Int64,2},eConn)   # for debugging
 
-  gmsh.write(outDir*"mixing.msh")
+#  gmsh.write(outDir*"mixing.msh")
   gmsh.finalize()
 
  return x,eConn,eConn2, nInner,xInner, nOuter,xOuter
