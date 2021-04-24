@@ -86,7 +86,7 @@ function TriMesh_ProjectDerivatives(x,eConn,u,node)
         d_y = ϕ_y*uLocal   # on this element
 
         idx = 1+(j-1)*nQuadrature:j*nQuadrature
-        P[idx,:] = hcat( ones(nQuadrature,1), x_g[:,1], x_g[:,2], x_g[:,1].^2, x_g[:,1].*x_g[:,2], x_g[:,2].^2 ]
+        P[idx,:] = hcat( ones(nQuadrature,1), x_g[:,1], x_g[:,2], x_g[:,1].^2, x_g[:,1].*x_g[:,2], x_g[:,2].^2 )
         d1[idx,:] = d_x
         d2[idx,:] = d_y
 
