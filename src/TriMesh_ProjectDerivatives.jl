@@ -1,4 +1,4 @@
-function TriMesh_ProjectDerivatives(x,eConn,u,node)
+function TriMesh_ProjectDerivatives(x,eConn,u,nodeList=[])
 #= """
   TriMesh_ProjectDerivatives - project the derivative of a C0 scalar field 
              onto the continuous finite element space (a ZZ projection).
@@ -22,10 +22,11 @@ function TriMesh_ProjectDerivatives(x,eConn,u,node)
   - `eConn`: Element connectivity
   - `u`: Nodal values of scalar quantity
 
-  - `node`: (optional, for future development)
+  - `node`: (optional)
             the node structure can be reused for multiple
             projections involving the same mesh, e.g. for
-            time-dependent problems.
+            time-dependent problems. It is generated and
+            returned if not provided.
 
   Output arguments:
   - `dudx1`: Projection of the x-derivatives evaluated at nodes
@@ -43,18 +44,21 @@ function TriMesh_ProjectDerivatives(x,eConn,u,node)
   #----------------------------------------------------------------------------
   #  For every vertex node, construct a list of elements that share it
   #----------------------------------------------------------------------------
-  nodeList = zeros(UInt64,nNodes,15) # the first entry is reserved as a counter
-                                     # we assume <= 14 elements per vertex
+  if ( typeof(nodeList) = typeof([])
+    nodeList = zeros(UInt64,nNodes,15) # the first entry is reserved as a 
+                                       # counter and
+                                       # we assume <= 14 elements per vertex
 
-  for n=1:nElements  # local nodes 1,2, and 3 are vertices
-    nodeList[eConn[n,1],1] = nodeList[eConn[n,1],1] + 1
-    nodeList[eConn[n,1],nodeList[eConn[n,1],1]+1] = n
+    for n=1:nElements  # local nodes 1,2, and 3 are vertices
+      nodeList[eConn[n,1],1] = nodeList[eConn[n,1],1] + 1
+      nodeList[eConn[n,1],nodeList[eConn[n,1],1]+1] = n
 
-    nodeList[eConn[n,2],1] = nodeList[eConn[n,2],1] + 1
-    nodeList[eConn[n,2],nodeList[eConn[n,2],1]+1] = n
+      nodeList[eConn[n,2],1] = nodeList[eConn[n,2],1] + 1
+      nodeList[eConn[n,2],nodeList[eConn[n,2],1]+1] = n
 
-    nodeList[eConn[n,3],1] = nodeList[eConn[n,3],1] + 1
-    nodeList[eConn[n,3],nodeList[eConn[n,3],1]+1] = n
+      nodeList[eConn[n,3],1] = nodeList[eConn[n,3],1] + 1
+      nodeList[eConn[n,3],nodeList[eConn[n,3],1]+1] = n
+    end
   end
 
   #----------------------------------------------------------------------------
@@ -250,7 +254,7 @@ function TriMesh_ProjectDerivatives(x,eConn,u,node)
 #  Compare d2_p with the true gradient
 #d_true=-2*x(:,2).*(1-x(:,1).^2)
 #disp([d2_p d_true])
-  computeElementError = false
+  computeElementError = false  # later define this based on vargout?
   if ( computeElementError )
     #---------------------------------------------------------------------------
     #  Calculate the H1-seminorm of the error on each element
