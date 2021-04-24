@@ -1,4 +1,4 @@
-function TriMesh_ProjectDerivatives(x,eConn,u,nodeList=[])
+function TriMesh_ProjectDerivatives(x,eConn,u;nodeList=[])
 #= """
   TriMesh_ProjectDerivatives - project the derivative of a C0 scalar field 
              onto the continuous finite element space (a ZZ projection).
@@ -44,7 +44,7 @@ function TriMesh_ProjectDerivatives(x,eConn,u,nodeList=[])
   #----------------------------------------------------------------------------
   #  For every vertex node, construct a list of elements that share it
   #----------------------------------------------------------------------------
-  if ( typeof(nodeList) = typeof([])
+  if typeof(nodeList) = typeof([])
     nodeList = zeros(UInt64,nNodes,15) # the first entry is reserved as a 
                                        # counter and
                                        # we assume <= 14 elements per vertex
