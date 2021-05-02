@@ -1,9 +1,9 @@
-function twodMesh(x_l::Float64, x_r::Float64,
-                  y_l::Float64, y_r::Float64,
-                  etype::String,
-                  n_nodesx::Int64, n_nodesy::Int64)
+function TriMesh_SquareMesh(x_l::Float64, x_r::Float64,
+                            y_l::Float64, y_r::Float64,
+                            etype::String,
+                            n_nodesx::Int64, n_nodesy::Int64)
 #= """
-  twodMesh.m - Generate a rectangular mesh with a prescribed density.
+  TriMesh_SquareMesh.m - Generate a rectangular mesh with a prescribed density.
                This routine returns nodal coordinates, element connectivity,
                and the nodal indices of exterior nodes to assist in the
                specification of boundary conditions..
@@ -16,7 +16,7 @@ function twodMesh(x_l::Float64, x_r::Float64,
  
   Usage:
   ```julia
-    x, e_conn, index_b = twodMesh(x_l,x_r,y_l,y_r,etype,n_nodex,n_nodesy)
+    x, e_conn, index_b = TriMesh_SquareMesh(x_l,x_r,y_l,y_r,etype,n_nodex,n_nodesy)
   ```
 
   Arguments:
