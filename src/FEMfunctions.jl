@@ -18,13 +18,17 @@ module FEMfunctions
   export TriMesh_ProjectDerivatives
   export TriMesh_PromoteL2Q
   export TriMesh_Search
+  export TriMesh_SquareMesh
 
   export twodBilinear
   export twodLinForm
   export twodMassMatrix
-  export twodMesh
   export twodQuadratureRule
   export twodShape
+  
+  export TetMesh_QuadratureRule
+
+  export threedBilinear
   
   include("onedBilinear.jl")
   include("onedLinForm.jl")
@@ -39,12 +43,16 @@ module FEMfunctions
   include("TriMesh_ProjectDerivatives.jl")
   include("TriMesh_PromoteL2Q.jl")
   include("TriMesh_Search.jl")
+  include("TriMesh_SquareMesh.jl")
 
   include("twodBilinear.jl")
   include("twodLinForm.jl")
   include("twodMassMatrix.jl")
-  include("twodMesh.jl")
   include("twodQuadratureRule.jl")
   include("twodShape.jl")
+
+  include("TetMesh_QuadratureRule.jl")
+
+  include("threedBilinear.jl")
 
 end
