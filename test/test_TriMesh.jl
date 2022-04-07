@@ -1,7 +1,7 @@
 using FEMfunctions
 using LinearAlgebra
 
-x,eConn,iB = twodMesh(0.0,1.0,0.0,1.0,"quadratic",5,5)
+x,eConn,iB = TriMesh_SquareMesh(0.0,1.0,0.0,1.0,"quadratic",5,5)
 
 eAdjacency = TriMesh_ElementAdjacency(eConn)
 

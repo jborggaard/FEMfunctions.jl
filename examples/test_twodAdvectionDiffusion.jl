@@ -3,26 +3,18 @@ using FEMfunctions
 import Gmsh: gmsh
 using LinearAlgebra
 
-using AbstractPlotting
 using SparseArrays
-using SpecialMatrices
-using Polynomials
+#using Polynomials
 using Printf
 using WriteVTK
 
-include("makeMesh.jl")
+include("makeAnnularMesh.jl")
 include("twodAdvectionDiffusion.jl")
 
 κ = 1.0
 ω = -1.0    # advection velocity parameter
 
-### define the N parameters that describe the inner boundary
-N = 160      # number of BSplines used to represent the inner boundary
-
-### describe the inner boundary using BSplines
-r = ones(N,1)
-
-x,eConn,eConn2, innerNodes,innerX, outerNodes,outerX = makeMesh(r)
+x,eConn, innerNodes,innerX, outerNodes,outerX = makeAnnularMesh(1.0,2.0)
 
 sort!(innerNodes);
 sort!(outerNodes);

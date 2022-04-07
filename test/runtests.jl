@@ -1,4 +1,5 @@
 using Test
+using Gmsh
 
 @testset "FEMfunctions.jl" begin
   include("test_onedElliptic.jl")
@@ -7,5 +8,5 @@ using Test
 
   include("test_TriMesh.jl")
 
-  include("test_twodAdvectionDiffusion.jl")
+  include("../examples/test_twodAdvectionDiffusion.jl")
 end

@@ -4,7 +4,7 @@ function twodElliptic(N=25, κ=1.0)
 #     - ∇⋅(κ∇u) = q
 #---------------------------------------------------------------------------78--
 
-#  include("twodMesh.jl")
+#  include("TriMesh_SquareMesh.jl")
 #  include("twodQuadratureRule.jl")
 #  @everywhere include("twodShape.jl")
 #  @everywhere include("twodBilinear.jl")
@@ -33,7 +33,8 @@ function twodElliptic(N=25, κ=1.0)
   yMax = 1.0
   nNodesX = N 
   nNodesY = N
-  x,eConn,iB = twodMesh( xMin,xMax, yMin,yMax, "quadratic", nNodesX,nNodesY )
+  x,eConn,iB = TriMesh_SquareMesh( xMin,xMax, 
+                                   yMin,yMax, "quadratic", nNodesX,nNodesY )
 
   #  Get problem dimensions
   #-----------------------------------------------------------------------------
