@@ -1,7 +1,7 @@
 using LinearAlgebra
 using Test
 
-include("../src/threedQuadratureRule.jl")
+include("../src/TetMesh_QuadratureRule.jl")
 
 #  Tests a quadrature formula for tetrahedron.  Rules must produce the
 #  stated accuracy for monomials when compared to the exact integral
@@ -232,29 +232,29 @@ include("../src/threedQuadratureRule.jl")
 
 
 
-  r,s,t,w = threedQuadratureRule(1)
+  r,s,t,w = TetMesh_QuadratureRule(1)
   @test pass0(r,s,t,w)
   @test pass1(r,s,t,w)
 
-#  r,s,t,w = threedQuadratureRule(4)
+#  r,s,t,w = TetMesh_QuadratureRule(4)
 #  @test pass0(r,s,t,w)
 #  @test pass1(r,s,t,w)
 #  @test pass2(r,s,t,w)
 
-  r,s,t,w = threedQuadratureRule(5)
+  r,s,t,w = TetMesh_QuadratureRule(5)
   @test pass0(r,s,t,w)
   @test pass1(r,s,t,w)
   @test pass2(r,s,t,w)
   @test pass3(r,s,t,w)
 
-  r,s,t,w = threedQuadratureRule(11)
+  r,s,t,w = TetMesh_QuadratureRule(11)
   @test pass0(r,s,t,w)
   @test pass1(r,s,t,w)
   @test pass2(r,s,t,w)
   @test pass3(r,s,t,w)
   @test pass4(r,s,t,w)
 
-  r,s,t,w = threedQuadratureRule(15)
+  r,s,t,w = TetMesh_QuadratureRule(15)
   @test pass0(r,s,t,w)
   @test pass1(r,s,t,w)
   @test pass2(r,s,t,w)
@@ -262,7 +262,7 @@ include("../src/threedQuadratureRule.jl")
   @test pass4(r,s,t,w)
   @test pass5(r,s,t,w)
 
-  r,s,t,w = threedQuadratureRule(24)
+  r,s,t,w = TetMesh_QuadratureRule(24)
   @test pass0(r,s,t,w)
   @test pass1(r,s,t,w)
   @test pass2(r,s,t,w)
@@ -271,7 +271,7 @@ include("../src/threedQuadratureRule.jl")
   @test pass5(r,s,t,w)
   @test pass6(r,s,t,w)
 
-  r,s,t,w = threedQuadratureRule(31)
+  r,s,t,w = TetMesh_QuadratureRule(31)
   @test pass0(r,s,t,w)
   @test pass1(r,s,t,w)
   @test pass2(r,s,t,w)
@@ -281,7 +281,7 @@ include("../src/threedQuadratureRule.jl")
   @test pass6(r,s,t,w)
   @test pass7(r,s,t,w)
 
-  r,s,t,w = threedQuadratureRule(45)
+  r,s,t,w = TetMesh_QuadratureRule(45)
   @test pass0(r,s,t,w)
   @test pass1(r,s,t,w)
   @test pass2(r,s,t,w)

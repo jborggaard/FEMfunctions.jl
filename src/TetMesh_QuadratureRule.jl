@@ -1,67 +1,85 @@
-function threedQuadratureRule(rule)
-#=
-   threed_quadrature.m - calculate quadrature integration points for 
-                         tetrahedral elements
+function TetMesh_QuadratureRule(rule)
+#= """
+   TetMesh_QuadratureRule - calculate quadrature integration points for 
+                            tetrahedral elements
  
-   Copyright (c) 2002, Jeff Borggaard, Virginia Tech
-   Version: 1.0
+   Author: Jeff Borggaard, Virginia Tech
+           part of FEMfunctions.jl
  
-   Usage:    [r,s,t,w] = threed_quadrature(rule)
+   Licensing:
+      This code is distributed under the MIT license.
+
+   Usage:
+   ```julia
+     r,s,t,w = TetMesh_QuadratureRule(rule)
+   ```
  
-   Variables:     rule
-                         Number of quadrature points:
-                            rule =  1, 1st degree monomial terms
-                                    4, 2nd degree monomial terms
-                                    5, 3rd degree monomial terms
-                                   11, 4th degree monomial terms
-                                   15, 5th degree monomial terms
-                                   24, 6th degree monomial terms
-                                   31, 7th degree monomial terms
-                                   41, 8th degree monomial terms
+   Arguments:
+   - `rule`:` Number of quadrature points:
+               rule =  1, 1st degree monomial terms
+                       4, 2nd degree monomial terms
+                       5, 3rd degree monomial terms
+                      11, 4th degree monomial terms
+                      15, 5th degree monomial terms
+                      24, 6th degree monomial terms
+                      31, 7th degree monomial terms
+                      41, 8th degree monomial terms
  
-                  r
-                         xi coordinate of quadrature points
-                  s
-                         eta coordinate of quadrature points
-                  t
-                         zeta coordinate of quadrature points
-                  w
-                         quadrature weights corresponding to (r,s,t)
+     Output arguments:
+     - `r`: ξ coordinate of quadrature points
+     - `s`: η coordinate of quadrature points
+     - `t`: ζ coordinate of quadrature points
+     - `w`: quadrature weights corresponding to (r,s,t)
  
    Rules 11, 15, 24, 31, and 45 are from Keast, Moderate-degree 
    tetrahedral quadrature formulas, CMAME, v.55, (1986), 339-348.
-%-----------------------------------------------------------------------
-=#
+""" =#
 
   r = zeros(Float64,rule)
   s = zeros(Float64,rule)
   t = zeros(Float64,rule)
   w = zeros(Float64,rule)
 
-  if (rule == 1)
+  if rule == 1
     # The following points correspond to a 1 point rule
     # Monomials of degree 1 are integrated exactly
-    r[1] = 0.250000000000000; s[1] = 0.250000000000000; t[1] = 0.250000000000000
+    r[1] = 0.250000000000000 
+    s[1] = 0.250000000000000
+    t[1] = 0.250000000000000
 
     w[1] = 0.166666666666667  # (the volume of a regular tet is 1/6)
 
-  elseif (rule == 4)
+  elseif rule == 4
     # The following points correspond to a 4 point rule
     # Monomials of degree 2 are integrated exactly
-    r[1] = 0.13819660;  s[1] = 0.13819660;  t[1] = 0.13819660
-    r[2] = 0.58541020;  s[2] = 0.13819660;  t[2] = 0.13819660
-    r[3] = 0.13819660;  s[3] = 0.58541020;  t[3] = 0.13819660
-    r[4] = 0.13819660;  s[4] = 0.13819660;  t[4] = 0.58541020
+    r[1] = 0.13819660
+    s[1] = 0.13819660
+    t[1] = 0.13819660
+
+    r[2] = 0.58541020
+    s[2] = 0.13819660
+    t[2] = 0.13819660
+
+    r[3] = 0.13819660
+    s[3] = 0.58541020
+    t[3] = 0.13819660
+
+    r[4] = 0.13819660
+    s[4] = 0.13819660
+    t[4] = 0.58541020
 
     w[1] = 4.16666666666667e-2
     w[2] = 4.16666666666667e-2
     w[3] = 4.16666666666667e-2
     w[4] = 4.16666666666667e-2
 
-  elseif (rule == 5)
+  elseif rule == 5
     # The following points correspond to a 5 point rule
     # Monomials of degree 3 are integrated exactly
-    r[1] = 0.250000000000000; s[1] = 0.250000000000000; t[1] = 0.250000000000000
+    r[1] = 0.250000000000000
+    s[1] = 0.250000000000000
+    t[1] = 0.250000000000000
+
     r[2] = 0.166666666666667; s[2] = 0.166666666666667; t[2] = 0.166666666666667
     r[3] = 0.500000000000000; s[3] = 0.166666666666667; t[3] = 0.166666666666667
     r[4] = 0.166666666666667; s[4] = 0.500000000000000; t[4] = 0.166666666666667

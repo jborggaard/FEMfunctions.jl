@@ -26,6 +26,7 @@ module FEMfunctions
   export twodQuadratureRule
   export twodShape
   
+  export TetMesh_CubeMesh
   export TetMesh_QuadratureRule
 
   export threedBilinear
@@ -51,6 +52,7 @@ module FEMfunctions
   include("twodQuadratureRule.jl")
   include("twodShape.jl")
 
+  include("TetMesh_CubeMesh.jl")
   include("TetMesh_QuadratureRule.jl")
 
   include("threedBilinear.jl")

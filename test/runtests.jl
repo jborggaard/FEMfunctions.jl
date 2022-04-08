@@ -9,4 +9,9 @@ using Gmsh
   include("test_TriMesh.jl")
 
   include("../examples/test_twodAdvectionDiffusion.jl")
+
+#  include("test_threedElliptic.jl")
+#
+#  include("test_TetMesh_QuadratureRule.jl")
+
 end
