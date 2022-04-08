@@ -419,7 +419,8 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
     else    #  mesh several tetrahedra into corners
       
       # preallocate storage
-      nElems = convert(Int64,(40*(nNodesX-3)*(nNodesY-3)*(nNodesZ-3))/64)
+      tmp = 40*(nNodesX-1)*(nNodesY-1)*(nNodesZ-1)/64
+      nElems = convert(Int64,tmp)
       eConn = zeros(Int64,nElems,10)
       
       ee = 0
