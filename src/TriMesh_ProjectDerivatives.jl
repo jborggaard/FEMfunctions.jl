@@ -39,7 +39,6 @@ function TriMesh_ProjectDerivatives(x,eConn,u;nodeList=[])
   - `elError`: element error (H1-seminorm for each field)
   - `nodeList`: a structure that contains an element list for each node
 """ =#
-using Printf
 
   nNodes = size(x,1)
   nElements = size(eConn,1)
@@ -245,7 +244,7 @@ using Printf
                   a_y[4]*x6^2 + a_y[5]*x6*y6 + a_y[6]*y6^2 )
             end
           else
-            @printf("Problem identifying node at a vertex")
+            println("Problem identifying node at a vertex")
           end
 
         end
