@@ -89,7 +89,7 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
       for k=0:nNodesY-1
         k_odd = mod(k,2)
 
-        if k_odd && l_odd       # skip center of cubes
+        if k_odd==1 && l_odd==1       # skip center of cubes
           for j=0:2:nNodesX-1
             i = jkl_to_global(j,k,l,nNodesX,nNodesY,nNodesZ)
             x[i,1] = pointsX[j+1]
