@@ -138,7 +138,7 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
           eConn[nel+4,:] = [ i4 i8 i3 i2 ]
           eConn[nel+5,:] = [ i5 i8 i2 i3 ]  # connect the stump element
 
-          warning("wrong_edges?, need to test")
+          printf("wrong_edges?, need to test\n")
           nel = nel + 5
         end
       end
