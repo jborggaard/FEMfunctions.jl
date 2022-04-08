@@ -64,7 +64,7 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
 
   if etype == "linear"
     # preallocate storage
-    x = zeros(nNodes,3)
+    x = zeros(Float64,nNodes,3)
     
     for l=1:nNodesZ
       for k=1:nNodesY
@@ -80,7 +80,7 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
   elseif etype == "quadratic"
     # preallocate storage
     nNodes = jkl_to_global(nNodesX-1,nNodesY-1,nNodesZ-1,nNodesX,nNodesY,nNodesZ)
-    x = zeros(nNodes,3)
+    x = zeros(Float64,nNodes,3)
     
     # borrow logic from C code
     for l=0:nNodesZ-1
@@ -117,7 +117,7 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
     
     # preallocate storage
     nElems = (nNodesX-1)*(nNodesY-1)*(nNodesZ-1)*5
-    eConn  = zeros(nElems,4)
+    eConn  = zeros(Int64,nElems,4)
     
     nel = 0;
     for l=1:nNodesZ-1
@@ -420,7 +420,7 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
       
       # preallocate storage
       nElems = (nNodesX-3)*(nNodesY-3)*(nNodesZ-3)/64 * 40
-      eConn = zeros(nElems,10)
+      eConn = zeros(Int64,nElems,10)
       
       ee = 0
       for l=0:4:nNodesZ-3
