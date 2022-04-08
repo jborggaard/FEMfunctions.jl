@@ -711,13 +711,13 @@ function jkl_to_global(j,k,l,nNodesX,nNodesY,~)
 
   k_odd = mod(k,2)
 
-  if l_odd
+  if l_odd==1
     base = basel + (k+k_odd)/2 *nNodesX + (k-k_odd)/2 *(nNodesX+1)/2
   else
     base = basel + k*nNodesX
   end
 
-  if k_odd && l_odd     # skip center of cubes
+  if k_odd==1 && l_odd==1     # skip center of cubes
     i = j/2 + base
   else
     i = j + base
