@@ -244,7 +244,7 @@ function TriMesh_ProjectDerivatives(x,eConn,u;nodeList=[])
                   a_y[4]*x6^2 + a_y[5]*x6*y6 + a_y[6]*y6^2 )
             end
           else
-            fprintf("Problem identifying node at a vertex")
+            @printf("Problem identifying node at a vertex")
           end
 
         end
