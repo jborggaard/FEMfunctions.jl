@@ -46,6 +46,9 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
   dx = (xMax-xMin)/(nNodesX-1)  
   dy = (yMax-yMin)/(nNodesY-1)
   dz = (zMax-zMin)/(nNodesZ-1)
+  pointsX = zeros(Float64,nNodesX)
+  pointsY = zeros(Float64,nNodesY)
+  pointsZ = zeros(Float64,nNodesZ)
   for j=1:nNodesX
     pointsX[j] = dx*(j-1)
   end
