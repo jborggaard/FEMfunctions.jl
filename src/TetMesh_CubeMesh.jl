@@ -79,7 +79,7 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
   
   elseif etype == "quadratic"
     # preallocate storage
-    nNodes = jkl_to_global(nNodesX-1,nNodesY-1,nNodesZ-1,nNodesX,nNodesY,lmax)
+    nNodes = jkl_to_global(nNodesX-1,nNodesY-1,nNodesZ-1,nNodesX,nNodesY,nNodesZ)
     x = zeros(nNodes,3)
     
     # borrow logic from C code
