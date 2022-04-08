@@ -39,6 +39,7 @@ function TriMesh_ProjectDerivatives(x,eConn,u;nodeList=[])
   - `elError`: element error (H1-seminorm for each field)
   - `nodeList`: a structure that contains an element list for each node
 """ =#
+using Printf
 
   nNodes = size(x,1)
   nElements = size(eConn,1)

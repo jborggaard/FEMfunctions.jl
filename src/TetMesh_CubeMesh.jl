@@ -40,6 +40,7 @@ TetMesh_CubeMesh - Generate a mesh for a regular hexahedral domain (cube).
    - `eConn`: Element connectivity
 """ =#
 
+using Printf
   #  Generate node coordinates
   nNodes = nNodesX*nNodesY*nNodesZ
   x = zeros(Float64,nNodes,3)
