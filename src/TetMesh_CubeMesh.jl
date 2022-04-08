@@ -723,7 +723,7 @@ function jkl_to_global(j,k,l,nNodesX,nNodesY,~)
     i = j + base
   end
 
-  i = i+1  # 1-based indexing
+  i = convert(Int64,i+1)  # 1-based indexing and "convert" to an integer
 
   return i
 end
