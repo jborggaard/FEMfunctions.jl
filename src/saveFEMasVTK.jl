@@ -35,7 +35,7 @@ function saveFEMasVTK( filename,
 
   cells = MeshCell[]
   for i=1:nElements
-    c = MeshCell(cellType,eConn[i,:])
+    c = MeshCell(cellType,eConn[i,[1,2,3,4,5,6,7,10,8,9]]) # match VTK ordering
     cells = push!(cells, c)
   end
 
