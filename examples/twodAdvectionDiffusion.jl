@@ -1,9 +1,9 @@
-function twodAdvectionDiffusion(x,eConn,innerNodes,outerNodes,velocity, κ = 1.0,ω=-10.0)
+function twodAdvectionDiffusion(x,eConn,innerNodes,outerNodes,velocity, κ = 1.0,ω=-1.0)
 #
 #  Solves the advection-diffusion equation in 2D
 #     - ∇⋅(κ∇θ) + v⋅∇θ = q,
-#  Ω is the domain between a Bspline disk and an
-#  outer circle.  We prescribe zero Dirichlet conditions to the outer boundary.
+#  Ω is an annular domain with outer radius 2 and inner radius 1.
+#  We prescribe zero Dirichlet conditions to the outer boundary.
 #
 #  As a unit test, choose a value of q such that the solution θ when
 #  v = (-ωy,ωx) becomes cos(2πr)-1 (which is zero at the outer boundary and has
@@ -15,7 +15,7 @@ function twodAdvectionDiffusion(x,eConn,innerNodes,outerNodes,velocity, κ = 1.0
 #  include("twodBilinear.jl")
 #  include("twodLinForm.jl")
 
-  rule  = 7;   # points in quadrature formula
+  rule  = 19;   # points in quadrature formula
 
   function q(x::Array{Float64,2},κ,ω)
     d = size(x,1)
@@ -116,8 +116,8 @@ function twodAdvectionDiffusion(x,eConn,innerNodes,outerNodes,velocity, κ = 1.0
 
   dirichletθ = Array{Float64,1}(undef,nDirichlet)
   for i=1:nDirichlet
-    nO = knownIndexθ[i]
     dirichletθ[i] = 0.0
+#    nO = knownIndexθ[i]
 #    dirichletθ[i] = x[nO,1]
   end
 

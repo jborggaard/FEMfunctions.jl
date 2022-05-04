@@ -1,5 +1,5 @@
 function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity, 
-                   μ::Float64=1.0, ω::Float64=1.0)
+                   μ::Float64=1.0, ω::Float64=-1.0)
 #
 #  Solves the twod-dimensional steady-state Oseen equations
 #       (v⋅∇)u + (u⋅∇)v = -∇p + ∇⋅(μ(∇u+∇u')) + f,
@@ -23,7 +23,7 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
 #  include("twodBilinear.jl")
 #  include("twodLinForm.jl")
 
-  ϵ = 1e-8/μ   # penalty parameter
+  ϵ = 1e-10/μ   # penalty parameter
   rule  = 7    # points in quadrature formula
 
   function f(x::Array{Float64,2},μ,ω)

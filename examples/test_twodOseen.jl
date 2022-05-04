@@ -3,29 +3,17 @@ using FEMfunctions
 import Gmsh: gmsh
 using LinearAlgebra
 
-using AbstractPlotting
 using SparseArrays
-using SpecialMatrices
-using Polynomials
-using Printf
+using Test
 using WriteVTK
 
-include("makeMesh.jl")
+include("makeAnnularMesh.jl")
 include("twodOseen.jl")
 
 μ = 1.0
 ω =-1.0
 
-### define the N parameters that describe the inner boundary
-N = 160      # number of BSplines used to represent the inner boundary
-
-### describe the inner boundary using BSplines
-r = ones(N,1)
-
-x,eConn,eConn2, innerNodes,innerX, outerNodes,outerX = makeMesh(r)
-
-sort!(innerNodes);
-sort!(outerNodes);
+x,eConn, innerNodes,innerX, outerNodes,outerX = makeAnnularMesh(1.0,2.0;lc=0.01)
 
 
 #   Let's look at the mesh...
@@ -38,13 +26,13 @@ for i=1:nNodes
   xT[i,1] = x[1,i]
   xT[i,2] = x[2,i]
 end
-for i=1:nElements#-nElementsSensor # the sensor elements are orientated correctly (why?)
-  eC[i,1] = convert(Int64,eConn[1,i])
-  eC[i,2] = convert(Int64,eConn[3,i])
-  eC[i,3] = convert(Int64,eConn[2,i])
-  eC[i,4] = convert(Int64,eConn[6,i])
-  eC[i,5] = convert(Int64,eConn[5,i])
-  eC[i,6] = convert(Int64,eConn[4,i])
+for i=1:nElements
+  eC[i,1] = eConn[1,i]
+  eC[i,2] = eConn[2,i]
+  eC[i,3] = eConn[3,i]
+  eC[i,4] = eConn[4,i]
+  eC[i,5] = eConn[5,i]
+  eC[i,6] = eConn[6,i]
 end
 
 advection = Array{Float64,2}(undef,nNodes,2)
@@ -59,13 +47,16 @@ velocity,pressure,exactVelocity,exactPressure = twodOseen(xT,eC,innerNodes,outer
 #  and use ParaView:
 # saveFEMasVTK("Oseen",xT,eC,["pressure"],pressure,["velocity"],velocity)
 # saveFEMasVTK("OseenEx",xT,eC,["pressure"],exactPressure,["velocity"],exactVelocity)
+# or combining these for convenience
+# saveFEMasVTK("test.vtu",xT,eC,["pressure","exaPressure"],hcat(pressure,exactPressure),["velocity","exaVelocity"],hcat(velocity,exactVelocity))
 
 M = twodMassMatrix(xT,eC)
 errorU = velocity[:,1]-exactVelocity[:,1]
 errorV = velocity[:,2]-exactVelocity[:,2]
-errorP = pressure-exactPressure
 
-#  The inner boundary isn't exactly a circle of radius 1, so we have a weaker error
+C = exactPressure[1]-pressure[1]
+errorP = pressure-exactPressure.+C
+
 @test sqrt( dot(errorU,(M*errorU)) + dot(errorV,(M*errorV)) ) < 1e-4
-#         sqrt( dot(errorP,(M*errorP)) ) < 1e-2
+@test sqrt( dot(errorP,(M*errorP)) ) < 1e-2
 

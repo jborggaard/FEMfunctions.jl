@@ -16,7 +16,7 @@ function twodStokes(N=25)
 #  @everywhere include("twodLinForm.jl")
 
   #  Define problem parameters
-#  @everywhere μ = 0.001
+#  @everywhere μ = 0.01
 #  @everywhere ϵ = 0.0
   μ = 0.01
   ϵ = 0      # 1e-5/μ    # when the PDE solution is not in the FEM subspace 
@@ -57,7 +57,8 @@ function twodStokes(N=25)
   #-----------------------------------------------------------------------------
   nNodesX = N
   nNodesY = N
-  x,eConn,iB = twodMesh( xMin,xMax, yMin,yMax, "quadratic", nNodesX,nNodesY )
+  x,eConn,iB = TriMesh_SquareMesh( xMin,xMax, 
+                                   yMin,yMax, "quadratic", nNodesX,nNodesY )
   nNodes = size(x,1)
   nElements = size(eConn,1)
 
