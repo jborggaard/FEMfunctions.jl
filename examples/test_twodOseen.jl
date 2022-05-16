@@ -13,7 +13,7 @@ include("twodOseen.jl")
 μ = 1.0
 ω =-1.0
 
-x,eConn, innerNodes,innerX, outerNodes,outerX = makeAnnularMesh(1.0,2.0;lc=0.01)
+x,eConn, innerNodes,innerX, outerNodes,outerX = makeAnnularMesh(1.0,2.0;lc=0.010)
 
 
 #   Let's look at the mesh...
@@ -54,7 +54,7 @@ M = twodMassMatrix(xT,eC)
 errorU = velocity[:,1]-exactVelocity[:,1]
 errorV = velocity[:,2]-exactVelocity[:,2]
 
-C = exactPressure[1]-pressure[1]
+C = exactPressure[100]-pressure[100]
 errorP = pressure-exactPressure.+C
 
 @test sqrt( dot(errorU,(M*errorU)) + dot(errorV,(M*errorV)) ) < 1e-4

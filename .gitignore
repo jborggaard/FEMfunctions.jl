@@ -1,6 +1,8 @@
+.DS_Store
 *.jl.*.cov
 *.jl.cov
 *.jl.mem
+examples/.mixing.msh
 test/.mixing.msh
 /Manifest.toml
 *.vtu

@@ -66,7 +66,8 @@ function twodAdvectionDiffusion(x,eConn,innerNodes,outerNodes,velocity, κ = 1.0
   b   = zeros(Float64,nNodes,1)
 
 #  @sync @distributed for k=1:nElements
-  for k=1:nElements
+  Threads.@threads for k=1:nElements
+#  for k=1:nElements
     xg  = zeros(Float64,rule,2)
     wg  = zeros(Float64,rule)
     ϕ = zeros(Float64,rule,nElDOF)

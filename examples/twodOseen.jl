@@ -3,7 +3,7 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
 #
 #  Solves the twod-dimensional steady-state Oseen equations
 #       (v⋅∇)u + (u⋅∇)v = -∇p + ∇⋅(μ(∇u+∇u')) + f,
-#                     0 = ∇⋅u
+#                     0 = ∇⋅u - ϵp
 #  Ω is the domain between two concentric circles.  v is a prescribed 
 #  advection velocity and f is used to generate a closed-form solution.
 #
@@ -23,7 +23,7 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
 #  include("twodBilinear.jl")
 #  include("twodLinForm.jl")
 
-  ϵ = 1e-10/μ   # penalty parameter
+  ϵ = 1e-7/μ   # penalty parameter
   rule  = 7    # points in quadrature formula
 
   function f(x::Array{Float64,2},μ,ω)
@@ -129,6 +129,7 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
     v_xg  = ϕ_x*advectionVelocity[nLocal,2]
     v_yg  = ϕ_y*advectionVelocity[nLocal,2]
 
+    # integrate the velocity-velocity block
     A11Loc = -twodBilinear( 2*μ_g, ϕ_x, ϕ_x, wg) -
               twodBilinear(   μ_g, ϕ_y, ϕ_y, wg) -
               twodBilinear(   u_g, ϕ_x, ϕ  , wg) -
@@ -146,10 +147,12 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
               twodBilinear(   u_g, ϕ_x, ϕ  , wg) -
               twodBilinear(   v_g, ϕ_y, ϕ  , wg) -
               twodBilinear(  v_yg, ϕ  , ϕ  , wg)
-  
+
+    # integrate the velocity-pressure blocks
     B1Loc  =  twodBilinear(   one, ϕ_x, ψ  , wg)
     B2Loc  =  twodBilinear(   one, ϕ_y, ψ  , wg)
 
+    # integrate the penalty term block
     MLoc   = -twodBilinear(   ϵ_g, ψ  , ψ  , wg)
 
     F1Loc  = twodLinForm( fx_g, ϕ, wg)

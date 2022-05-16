@@ -87,8 +87,8 @@ function makeAnnularMesh(rInner=1.0,rOuter=2.0;outDir=".",lc=0.1)
   nOuter17,xOuter17 = gmsh.model.mesh.getNodes(1,17)
   nOuter18,xOuter18 = gmsh.model.mesh.getNodes(1,18)
 
-  nInner = vcat(nInner11,nInner12,nInner13,nInner14)
-  nOuter = vcat(nOuter15,nOuter16,nOuter17,nOuter18)
+  nInner = vcat(1:4,nInner11,nInner12,nInner13,nInner14)
+  nOuter = vcat(5:8,nOuter15,nOuter16,nOuter17,nOuter18)
 
   sort!(nInner)
   sort!(nOuter)
