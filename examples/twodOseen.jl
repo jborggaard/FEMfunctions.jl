@@ -24,29 +24,35 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
 #  include("twodLinForm.jl")
 
   ϵ = 1e-7/μ   # penalty parameter
-  rule  = 7    # points in quadrature formula
+  rule  = 19    # points in quadrature formula
 
-  function f(x::Array{Float64,2},μ,ω)
+  function f(x::Array{Float64,2},μ,ω,ϵ)
     d = size(x,1)
     ansX = zeros(Float64,d,1)
     ansY = zeros(Float64,d,1)
+    ansC = zeros(Float64,d,1)
     for i=1:d
       rad = sqrt(x[i,1]^2+x[i,2]^2)
-      ansX[i] = (2*x[i,1]*rad^5-3μ*ω*x[i,2]^3+ω^2*x[i,1]*(rad^2-rad^5) -
+      ansX[i] = (-3μ*ω*x[i,2]^3+ω^2*x[i,1]*(rad^4-rad^5) -
                   3*μ*ω*x[i,1]^2*x[i,2] + 4*μ*ω*x[i,2]*rad^2)/rad^5
-      ansY[i] = (2*x[i,2]*rad^5+3μ*ω*x[i,1]^3+ω^2*x[i,2]*(rad^2-rad^5) +
+      ansY[i] = (3μ*ω*x[i,1]^3+ω^2*x[i,2]*(rad^4-rad^5) +
                   3*μ*ω*x[i,1]*x[i,2]^2 - 4*μ*ω*x[i,1]*rad^2)/rad^5
+#      ansX[i] = 2*x[i,1] + (-3μ*ω*x[i,2]^3+ω^2*x[i,1]*(rad^4-rad^5) -
+#                  3*μ*ω*x[i,1]^2*x[i,2] + 4*μ*ω*x[i,2]*rad^2)/rad^5
+#      ansY[i] = 2*x[i,2] + (3μ*ω*x[i,1]^3+ω^2*x[i,2]*(rad^4-rad^5) +
+#                  3*μ*ω*x[i,1]*x[i,2]^2 - 4*μ*ω*x[i,1]*rad^2)/rad^5
+#      ansC[i] = ϵ*rad^2
     end
-    return ansX,ansY
+    return ansX,ansY,ansC
   end
 
-  function uEx(x::Array{Float64,1},μ=1.0,ω=-1.0)
+  function uEx(x::Array{Float64,1},μ,ω)
     rad = sqrt(x[1]^2+x[2]^2)
     factor = (rad-1.0)/rad
 
     ansX = -x[2]*ω*factor
     ansY =  x[1]*ω*factor
-    ansP = rad^2
+    ansP = 0.0 #rad^2
     
     return ansX, ansY, ansP
   end
@@ -55,13 +61,6 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
   #-----------------------------------------------------------------------------
   nNodes = size(x,1)
   nElements = size(eConn,1)
-
-#  innerNodes = sort!(innerNodes)  # assume they come in sorted
-#  outerNodes = sort!(outerNodes)
-  nInnerNodes = length(innerNodes)
-  nOuterNodes = length(outerNodes)
-#  nDirichlet = nInnerNodes+nOuterNodes   # use for Dirichlet BCs
-  nDirichlet = nOuterNodes
 
   #  Set the index into equation numbers
   #-----------------------------------------------------------------------------
@@ -120,7 +119,7 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
     xg,wg,ψ,ψ_x,ψ_y = twodShape( xLocal[1:3,:], r, s, w )
 
     # evaluate forcing function at quadrature points
-    fx_g, fy_g = f(xg,μ,ω)          
+    fx_g, fy_g, fc_g = f(xg,μ,ω,ϵ)          
 
     u_g   = ϕ*advectionVelocity[nLocal,1]
     u_xg  = ϕ_x*advectionVelocity[nLocal,1]
@@ -130,33 +129,34 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
     v_yg  = ϕ_y*advectionVelocity[nLocal,2]
 
     # integrate the velocity-velocity block
-    A11Loc = -twodBilinear( 2*μ_g, ϕ_x, ϕ_x, wg) -
-              twodBilinear(   μ_g, ϕ_y, ϕ_y, wg) -
-              twodBilinear(   u_g, ϕ_x, ϕ  , wg) -
-              twodBilinear(   v_g, ϕ_y, ϕ  , wg) -
-              twodBilinear(  u_xg, ϕ  , ϕ  , wg)
+    A11Loc = twodBilinear( 2*μ_g, ϕ_x, ϕ_x, wg) +
+             twodBilinear(   μ_g, ϕ_y, ϕ_y, wg) +
+             twodBilinear(   u_g, ϕ_x, ϕ  , wg) +
+             twodBilinear(   v_g, ϕ_y, ϕ  , wg) +
+             twodBilinear(  u_xg, ϕ  , ϕ  , wg)
 
-    A12Loc = -twodBilinear(   μ_g, ϕ_x, ϕ_y, wg) -
-              twodBilinear(  u_yg, ϕ  , ϕ  , wg)
+    A12Loc = twodBilinear(   μ_g, ϕ_x, ϕ_y, wg) +
+             twodBilinear(  u_yg, ϕ  , ϕ  , wg)
 
-    A21Loc = -twodBilinear(   μ_g, ϕ_y, ϕ_x, wg) -
-              twodBilinear(  v_xg, ϕ  , ϕ  , wg)
+    A21Loc = twodBilinear(   μ_g, ϕ_y, ϕ_x, wg) +
+             twodBilinear(  v_xg, ϕ  , ϕ  , wg)
 
-    A22Loc = -twodBilinear(   μ_g, ϕ_x, ϕ_x, wg) -
-              twodBilinear( 2*μ_g, ϕ_y, ϕ_y, wg) -
-              twodBilinear(   u_g, ϕ_x, ϕ  , wg) -
-              twodBilinear(   v_g, ϕ_y, ϕ  , wg) -
-              twodBilinear(  v_yg, ϕ  , ϕ  , wg)
+    A22Loc = twodBilinear(   μ_g, ϕ_x, ϕ_x, wg) +
+             twodBilinear( 2*μ_g, ϕ_y, ϕ_y, wg) +
+             twodBilinear(   u_g, ϕ_x, ϕ  , wg) +
+             twodBilinear(   v_g, ϕ_y, ϕ  , wg) +
+             twodBilinear(  v_yg, ϕ  , ϕ  , wg)
 
     # integrate the velocity-pressure blocks
-    B1Loc  =  twodBilinear(   one, ϕ_x, ψ  , wg)
-    B2Loc  =  twodBilinear(   one, ϕ_y, ψ  , wg)
+    B1Loc  = -twodBilinear(   one, ϕ_x, ψ  , wg)
+    B2Loc  = -twodBilinear(   one, ϕ_y, ψ  , wg)
 
     # integrate the penalty term block
-    MLoc   = -twodBilinear(   ϵ_g, ψ  , ψ  , wg)
+    MLoc   =  twodBilinear(   ϵ_g, ψ  , ψ  , wg)
 
     F1Loc  = twodLinForm( fx_g, ϕ, wg)
     F2Loc  = twodLinForm( fy_g, ϕ, wg)
+    FcLoc  = twodLinForm( fc_g, ψ, wg)
     
     index = (k-1)*(2*nElDOF+3)^2  # compute base index (since k could be in any order)
     lDOF = ideU[nLocal,1][:]
@@ -229,12 +229,12 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
         index = index + 1
         II[index] = nTest
         JJ[index] = nUnkU
-        AA[index] = B1Loc[nt,nu]
+        AA[index] =-B1Loc[nt,nu]
 
         index = index + 1
         II[index] = nTest
         JJ[index] = nUnkV
-        AA[index] = B2Loc[nt,nu]
+        AA[index] =-B2Loc[nt,nu]
       end
       for np = 1:3  # special to this linear element
         nUnkP = ideP[nLocal[np]]
@@ -244,7 +244,8 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
         JJ[index] = nUnkP
         AA[index] = MLoc[nt,np]
       end
-
+      
+      b[nTest] = b[nTest] + FcLoc[nt]
     end  
   end
 
@@ -304,7 +305,7 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
     end
   end
 
-  rhs = -b[unknownIndex]-A[unknownIndex,knownIndexU[:]]*dirichletU-A[unknownIndex,knownIndexV[:]]*dirichletV
+  rhs = b[unknownIndex]-A[unknownIndex,knownIndexU[:]]*dirichletU-A[unknownIndex,knownIndexV[:]]*dirichletV
 
   uvp = A[unknownIndex,unknownIndex]\rhs
 
@@ -348,13 +349,15 @@ function twodOseen(x,eConn,innerNodes,outerNodes,advectionVelocity,
   end
 
   # Compute the norm of the approximation error for the unit test
-  M = twodMassMatrix(x,eConn)
-#  vDiff = velocity-velocityExact
-  C     = pressureExact[1]-pressure[1]
-#  pDiff = pressure-pressureExact.+C
-  pressureExact = pressureExact.-C
+#  C     = pressureExact[1]-pressure[1]
+#  pressureExact = pressureExact.-C
   return velocity,pressure,velocityExact,pressureExact
+
+#  vDiff = velocity-velocityExact
+#  pDiff = pressure-pressureExact.+C
+#  M = twodMassMatrix(x,eConn)
 #  return sqrt(dot(vDiff[:,1],M,vDiff[:,1])) + 
 #         sqrt(dot(vDiff[:,2],M,vDiff[:,2])) +
 #         sqrt(dot(pDiff,M,pDiff))
+
 end

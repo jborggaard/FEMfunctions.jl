@@ -16,9 +16,9 @@ function TriMesh_PromoteL2Q(p,eConn)
 
   for nEl=1:nElements
     localNodes = eConn[nEl,:]
-    p[ localNodes[4] ] = ( p[localNodes[1]] + p[localNodes[2]] )/2
-    p[ localNodes[5] ] = ( p[localNodes[2]] + p[localNodes[3]] )/2
-    p[ localNodes[6] ] = ( p[localNodes[3]] + p[localNodes[1]] )/2
+    p[ localNodes[4] ] = ( p[localNodes[1]] + p[localNodes[2]] )/2.0
+    p[ localNodes[5] ] = ( p[localNodes[2]] + p[localNodes[3]] )/2.0
+    p[ localNodes[6] ] = ( p[localNodes[3]] + p[localNodes[1]] )/2.0
   end
 
   return p
