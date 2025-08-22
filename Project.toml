@@ -11,7 +11,10 @@ SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 WriteVTK = "64499a7a-5c06-52f2-abe2-ccb03c286192"
 
 [compat]
-Gmsh = "0.3"
+Gmsh = "0.3.1"
+LinearAlgebra = "0.1"
+Printf = "0.1"
+SparseArrays = "0.1"
 WriteVTK = "1.8"
 julia = "1.5"
 
